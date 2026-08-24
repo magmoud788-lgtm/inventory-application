@@ -22,9 +22,9 @@ ON DELETE CASCADE
 
 async function main() {
   console.log('seeding');
-  const client = new Client ({
-    connectionString: 'postgresql://mahmoud:ronaldomahmoud@localhost:5432/mahmoud',
-  });
+  const client = new Client({
+    connectionString: process.env.DATABASE_URL,
+});
   await client.connect();
   await client.query(SQL);
   await client.end();
