@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Categories</title>
+
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+    <h1>Categories</h1>
+
+    <button id="add-category">
+        Add Category
+    </button>
+
+    <form
+        id="category-form"
+        action="/categories/new"
+        method="POST"
+        style="display: none;"
+    >
+
+        <div>
+            <label for="name">Name</label>
+
+            <input
+                type="text"
+                id="name"
+                name="name"
+                required
+            >
+        </div>
+
+        <div>
+            <label for="description">Description</label>
+
+            <textarea
+                id="description"
+                name="description"
+            ></textarea>
+        </div>
+
+        <button type="submit">
+            Create Category
+        </button>
+
+    </form>
+
+    <hr>
+
+    <h2>All Categories</h2>
+
+    <% if (categories && categories.length > 0) { %>
+
+        <% categories.forEach(category => { %>
+
+            <div class="category-card">
+
+                <a
+                    href="/categories/<%= category.id %>"
+                    class="category-link"
+                >
+
+                    <h3><%= category.name %></h3>
+
+                    <p><%= category.description %></p>
+
+                </a>
+
+                <form
+                    action="/categories/<%= category.id %>?_method=DELETE"
+                    method="POST"
+                >
+
+                    <button type="submit">
+                        Delete
+                    </button>
+
+                </form>
+
+            </div>
+
+        <% }) %>
+
+    <% } else { %>
+
+        <p>No categories yet.</p>
+
+    <% } %>
+
+
+    <script>
+
+        const addCategoryButton =
+            document.querySelector('#add-category');
+
+        const categoryForm =
+            document.querySelector('#category-form');
+
+
+        addCategoryButton.addEventListener('click', () => {
+
+            if (categoryForm.style.display === 'none') {
+
+                categoryForm.style.display = 'block';
+
+            } else {
+
+                categoryForm.style.display = 'none';
+
+            }
+
+        });
+
+    </script>
+
+</body>
+
+</html>

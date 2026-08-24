@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title><%= category.name %></title>
+
+    <link rel="stylesheet" href="/style.css">
+
+</head>
+
+<body>
+
+    <h1><%= category.name %></h1>
+
+    <p><%= category.description %></p>
+
+    <hr>
+
+    <h2>Items</h2>
+
+    <% if (items.length > 0) { %>
+
+        <% items.forEach(item => { %>
+
+            <div class="item-card">
+
+                <h3><%= item.name %></h3>
+
+                <p><%= item.description %></p>
+
+                <p>Price: $<%= item.price %></p>
+
+                <p>Quantity: <%= item.quantity %></p>
+
+                <form
+                    action="/items/<%= item.id %>?_method=DELETE"
+                    method="POST"
+                >
+
+                    <input
+                        type="hidden"
+                        name="categoryId"
+                        value="<%= category.id %>"
+                    >
+
+                    <button type="submit">
+                        Delete Item
+                    </button>
+
+                </form>
+
+            </div>
+
+        <% }) %>
+
+    <% } else { %>
+
+        <p>No items in this category yet.</p>
+
+    <% } %>
+
+    <hr>
+
+    <h2>Add Item</h2>
+
+    <button id="add-item" type="button">
+        Add Item
+    </button>
+
+    <form
+        id="item-form"
+        action="/items/new"
+        method="POST"
+        style="display: none;"
+    >
+
+        <div>
+
+            <label for="name">Name</label>
+
+            <input
+                type="text"
+                id="name"
+                name="name"
+                required
+            >
+
+        </div>
+
+        <div>
+
+            <label for="description">Description</label>
+
+            <textarea
+                id="description"
+                name="description"
+            ></textarea>
+
+        </div>
+
+        <div>
+
+            <label for="price">Price</label>
+
+            <input
+                type="number"
+                id="price"
+                name="price"
+                step="0.01"
+                required
+            >
+
+        </div>
+
+        <div>
+
+            <label for="quantity">Quantity</label>
+
+            <input
+                type="number"
+                id="quantity"
+                name="quantity"
+                required
+            >
+
+        </div>
+
+        <!-- Associates this item with the current category -->
+
+        <input
+            type="hidden"
+            name="categoryId"
+            value="<%= category.id %>"
+        >
+
+        <button type="submit">
+            Add Item
+        </button>
+
+    </form>
+
+    <hr>
+
+    <form
+        action="/categories/<%= category.id %>?_method=DELETE"
+        method="POST"
+    >
+
+        <button type="submit">
+            Delete Category
+        </button>
+
+    </form>
+
+    <br>
+
+    <a href="/categories">
+        Back to Categories
+    </a>
+
+    <script>
+
+        const addItemButton = document.querySelector('#add-item');
+
+        const itemForm = document.querySelector('#item-form');
+
+        addItemButton.addEventListener('click', () => {
+
+            if (itemForm.style.display === 'none') {
+
+                itemForm.style.display = 'block';
+
+            } else {
+
+                itemForm.style.display = 'none';
+
+            }
+
+        });
+
+    </script>
+
+</body>
+
+</html>
